@@ -2,6 +2,8 @@ package Week7.mainmatter;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,8 +22,10 @@ public class CheckTreeAVL {
         // AVL tree : a binary search tree that satisfies the height-balance property.
         boolean isBST = isTreeBST(tree, Integer.MIN_VALUE, Integer.MAX_VALUE);
         boolean isBalanced = heightBalanceProperty(tree);
+        HashSet<Integer> keys = new HashSet<>();
+        boolean containsDuplicates = containsDuplicates(tree, keys);
 
-        return isBST && isBalanced;
+        return isBST && isBalanced && !containsDuplicates;
     }
 
     public static boolean isTreeBST(BinaryTree tree, int min, int max) {
@@ -48,6 +52,16 @@ public class CheckTreeAVL {
         int heightRight = calculateHeight(tree.getRight());
 
         return 1 + Math.max(heightLeft, heightRight);
+    }
+
+    public static boolean containsDuplicates(BinaryTree tree, HashSet<Integer> set) {
+        if (tree == null) return false;
+
+        if (set.contains(tree.getKey())) return true;
+
+        set.add(tree.getKey());
+
+        return containsDuplicates(tree.getLeft(), set) && containsDuplicates(tree.getRight(), set);
     }
 
 }
