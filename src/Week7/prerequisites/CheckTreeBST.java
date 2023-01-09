@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CheckTreeBST {
     /**
      * Computes whether the BinaryTree is a binary search tree.
-     * 64 / 100
+     * 95 / 100
      *
      * @param tree the BinaryTree to check.
      * @return true iff the BinaryTree is a binary search tree, else false.
@@ -21,7 +21,16 @@ public class CheckTreeBST {
     public static boolean isValidBST(BinaryTree tree, int min, int max) {
         if (tree == null) return true;
 
-        if (tree.getKey() < min || tree.getKey() > max) return false;
+        // Check if the tree is a proper binary tree.
+        if (tree.hasLeft() && !tree.hasRight()) {
+            if (tree.getLeft().hasLeft() || tree.getLeft().hasRight()) return false;
+        }
+
+        if (!tree.hasLeft() && tree.hasRight()) {
+            if (tree.getRight().hasLeft() || tree.getRight().hasRight()) return false;
+        }
+
+        if (tree.getKey() <= min || tree.getKey() >= max) return false;
 
         return isValidBST(tree.getLeft(), min, tree.getKey()) && isValidBST(tree.getRight(), tree.getKey(), max);
     }

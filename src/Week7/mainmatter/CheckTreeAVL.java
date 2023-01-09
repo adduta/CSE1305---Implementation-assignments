@@ -11,6 +11,7 @@ public class CheckTreeAVL {
 
     /**
      * Computes whether the BinaryTree is an AVL tree.
+     *  100 / 100
      *
      * @param tree
      *     the BinaryTree to check.
@@ -22,17 +23,15 @@ public class CheckTreeAVL {
         // AVL tree : a binary search tree that satisfies the height-balance property.
         boolean isBST = isTreeBST(tree, Integer.MIN_VALUE, Integer.MAX_VALUE);
         boolean isBalanced = heightBalanceProperty(tree);
-        HashSet<Integer> keys = new HashSet<>();
-        boolean containsDuplicates = containsDuplicates(tree, keys);
 
-        return isBST && isBalanced && !containsDuplicates;
+        return isBST && isBalanced;
     }
 
     public static boolean isTreeBST(BinaryTree tree, int min, int max) {
         if (tree == null) return true;
 
-        if (min > tree.getKey()) return false;
-        if (max < tree.getKey()) return false;
+        if (min >= tree.getKey()) return false;
+        if (max <= tree.getKey()) return false;
 
         return isTreeBST(tree.getLeft(), min, tree.getKey()) && isTreeBST(tree.getRight(), tree.getKey(), max);
     }
